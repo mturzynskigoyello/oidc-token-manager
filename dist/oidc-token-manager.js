@@ -8536,7 +8536,7 @@ function loadToken(mgr) {
 }
 
 function configureTokenExpiring(mgr) {
-
+	
     function callback() {
         handle = null;
         mgr._callTokenExpiring();
@@ -8555,13 +8555,14 @@ function configureTokenExpiring(mgr) {
         handle = window.setTimeout(callback, duration * 1000);
     }
 
-    function configure() {
+    function configure() {		
         cancel();
 
-        if (!mgr.expired) {
+         if (!mgr.expired) {
             var duration = mgr.expires_in;
-            if (duration > 60) {
-                setup(duration - 60);
+            var expiringThreshold = mgr._settings.token_expiring_threshold;
+            if (duration > expiringThreshold) {
+                setup(duration - expiringThreshold);
             }
             else {
                 callback();
@@ -8630,6 +8631,7 @@ function configureTokenExpired(mgr) {
 
 function TokenManager(settings) {
     this._settings = settings || {};
+	this._settings.token_expiring_threshold = this._settings.token_expiring_threshold || (45 + Math.floor(Math.random() * 30));
 
     if (typeof this._settings.persist === 'undefined') {
         this._settings.persist = true;
