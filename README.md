@@ -1,5 +1,7 @@
 # oidc-token-manager
 
+This is a fork of a original repository which fixes some issues which haven't been pulled yet.
+
 Library to manage tokens obtained via OpenID Connect (OIDC)
 
 ## Install
